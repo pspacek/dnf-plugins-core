@@ -117,3 +117,9 @@ class TestCase(unittest.TestCase):
 
     if not PY3:
         assertCountEqual = unittest.TestCase.assertItemsEqual
+
+@contextlib.contextmanager
+def patch_std_streams():
+    with mock.patch('sys.stdout', new_callable=dnf.pycomp.StringIO) as stdout, \
+            mock.patch('sys.stderr', new_callable=dnf.pycomp.StringIO) as stderr:
+        yield (stdout, stderr)
